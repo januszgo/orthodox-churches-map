@@ -1,0 +1,7 @@
+osm2pgsql -d jango -O flex -S instruction.lua poland-latest.osm.pbf
+
+\COPY (SELECT osm_id, name, denomination,concat(street,' ',housenumber,' ',postcode,' ',city) as adres,  ST_X(st_transform(geom,4326)), ST_Y(st_transform(geom,4326)), website  FROM "public"."churches" where denomination='orthodox' or denomination='polish_orthodox'
+) TO '/home/jango/Pulpit/churches-project/mapa-v1.3.1/churches_to_export.csv' WITH (FORMAT CSV, HEADER);
+
+\COPY (SELECT osm_id, name, denomination, concat(street,' ',housenumber,' ',postcode,' ',city) as adres,  ST_X(st_transform(geom,4326)), ST_Y(st_transform(geom,4326)), website  FROM "public"."churches" where denomination='old_believers'
+) TO '/home/jango/Pulpit/churches-project/mapa-v1.3.1/oldbelievers_to_export.csv' WITH (FORMAT CSV, HEADER);
